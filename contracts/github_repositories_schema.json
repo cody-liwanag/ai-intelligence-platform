@@ -1,0 +1,49 @@
+{
+  "source_name": "github_repositories",
+  "columns": {
+    "search_topic": {
+      "expected_type": "object",
+      "required": true
+    },
+    "repo_id": {
+      "expected_type": "int64",
+      "required": true
+    },
+    "repo_name": {
+      "expected_type": "object",
+      "required": true
+    },
+    "full_name": {
+      "expected_type": "object",
+      "required": true
+    },
+    "description": {
+      "expected_type": "object",
+      "required": false
+    },
+    "stars": {
+      "expected_type": "int64",
+      "required": true
+    },
+    "forks": {
+      "expected_type": "int64",
+      "required": true
+    },
+    "language": {
+      "expected_type": "object",
+      "required": false
+    },
+    "created_at": {
+      "expected_type": "object",
+      "required": true
+    },
+    "updated_at": {
+      "expected_type": "object",
+      "required": true
+    },
+    "repo_url": {
+      "expected_type": "object",
+      "required": true
+    }
+  }
+}
