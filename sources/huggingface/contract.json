@@ -1,0 +1,51 @@
+{
+    "source_name": "huggingface_models",
+
+    "columns": {
+
+        "search_topic": {
+            "expected_type": "object",
+            "required": true
+        },
+
+        "model_id": {
+            "expected_type": "object",
+            "required": true
+        },
+
+        "downloads": {
+            "expected_type": "int64",
+            "required": true
+        },
+
+        "likes": {
+            "expected_type": "int64",
+            "required": true
+        },
+
+        "author": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "pipeline_tag": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "last_modified": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "private": {
+            "expected_type": "bool",
+            "required": false
+        },
+
+        "gated": {
+            "expected_type": "object",
+            "required": false
+        }
+    }
+}

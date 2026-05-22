@@ -1,12 +1,9 @@
 import duckdb
-
-
-DB_PATH = "warehouse/duckdb/platform.duckdb"
-
+from config.paths import DUCKDB_PATH
 
 def load(df):
 
-    conn = duckdb.connect(DB_PATH)
+    conn = duckdb.connect(DUCKDB_PATH)
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS raw.github_repositories (
