@@ -1,8 +1,6 @@
 import duckdb
 from sqlalchemy import create_engine
-
-
-DUCKDB_PATH = "warehouse/duckdb/platform.duckdb"
+from config.paths import DUCKDB_PATH
 
 POSTGRES_URI = (
     "postgresql+psycopg2://analytics:analytics"

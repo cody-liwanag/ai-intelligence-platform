@@ -1,8 +1,5 @@
 import duckdb
-
-
-DB_PATH = "warehouse/duckdb/platform.duckdb"
-
+from config.paths import DUCKDB_PATH
 
 MART_SQL_FILES = [
     "warehouse/sql/marts/ai_topic_summary.sql",
@@ -13,7 +10,7 @@ MART_SQL_FILES = [
 
 def run_mart_models():
 
-    conn = duckdb.connect(DB_PATH)
+    conn = duckdb.connect(DUCKDB_PATH)
 
     for sql_file_path in MART_SQL_FILES:
 

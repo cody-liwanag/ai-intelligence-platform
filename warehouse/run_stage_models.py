@@ -1,10 +1,9 @@
 import duckdb
-
-DB_PATH = "~/projects/ai-intelligence-platform/warehouse/duckdb/platform.duckdb"
+from config.paths import DUCKDB_PATH
 
 def run_stage_models():
 
-    conn = duckdb.connect(DB_PATH)
+    conn = duckdb.connect(DUCKDB_PATH)
 
     with open("warehouse/sql/stage/stg_github_repositories.sql", "r") as file:
         stage_sql = file.read()

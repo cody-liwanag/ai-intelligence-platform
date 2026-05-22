@@ -1,9 +1,8 @@
 import duckdb
-
-DB_PATH = "~/projects/ai-intelligence-platform/warehouse/duckdb/platform.duckdb"
+from config.paths import DUCKDB_PATH
 
 def initialise_database():
-    conn = duckdb.connect(DB_PATH)
+    conn = duckdb.connect(DUCKDB_PATH)
 
     conn.execute("""
                  CREATE SCHEMA IF NOT EXISTS raw;

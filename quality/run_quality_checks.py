@@ -1,9 +1,6 @@
 import duckdb
 from datetime import datetime
-
-
-DB_PATH = "warehouse/duckdb/platform.duckdb"
-
+from config.paths import DUCKDB_PATH
 
 QUALITY_CHECKS = [
     {
@@ -117,7 +114,7 @@ def get_next_quality_run_id(conn):
 
 def run_quality_checks():
 
-    conn = duckdb.connect(DB_PATH)
+    conn = duckdb.connect(DUCKDB_PATH)
 
     quality_run_id = get_next_quality_run_id(conn)
 

@@ -1,11 +1,8 @@
 import json
 from datetime import datetime
+from config.paths import DUCKDB_PATH
 
 import duckdb
-
-
-DB_PATH = "warehouse/duckdb/platform.duckdb"
-
 
 def load_schema_contract(contract_path):
 
@@ -27,7 +24,7 @@ def get_next_drift_run_id(conn):
 
 def check_schema_drift(df, contract_path):
 
-    conn = duckdb.connect(DB_PATH)
+    conn = duckdb.connect(DUCKDB_PATH)
 
     contract = load_schema_contract(contract_path)
 
