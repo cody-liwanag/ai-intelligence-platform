@@ -4,7 +4,7 @@ import duckdb
 DB_PATH = "warehouse/duckdb/platform.duckdb"
 
 
-def load_raw_github_data(df):
+def load(df):
 
     conn = duckdb.connect(DB_PATH)
 
@@ -24,12 +24,12 @@ def load_raw_github_data(df):
         )
     """)
 
-    conn.register("github_df", df)
+    conn.register("source_df", df)
 
     conn.sql("""
         INSERT INTO raw.github_repositories
         SELECT *
-        FROM github_df AS source
+        FROM source_df AS source
         WHERE NOT EXISTS (
             SELECT 1
             FROM raw.github_repositories AS target
@@ -38,11 +38,13 @@ def load_raw_github_data(df):
         )
     """)
 
-    result = conn.execute("""
+    rows_loaded = conn.execute("""
         SELECT COUNT(*)
         FROM raw.github_repositories
-    """).fetchone()
-
-    print("Total rows in raw.github_repositories:", result[0])
+    """).fetchone()[0]
 
     conn.close()
+
+    print("Total rows in raw.github_repositories:", rows_loaded)
+
+    return rows_loaded

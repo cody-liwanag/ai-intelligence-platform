@@ -14,7 +14,7 @@ AI_SEARCH_TOPICS = [
 ]
 
 
-def fetch_github_repositories():
+def extract():
 
     all_records = []
 
@@ -32,11 +32,9 @@ def fetch_github_repositories():
         }
 
         response = requests.get(url, params=params)
-
         response.raise_for_status()
 
         data = response.json()
-
         repositories = data.get("items", [])
 
         print(f"Repositories returned for {topic}: {len(repositories)}")
@@ -57,14 +55,12 @@ def fetch_github_repositories():
                 "repo_url": repo.get("html_url")
             })
 
-    print(f"Total records collected: {len(all_records)}")
-
     if not all_records:
         raise Exception("No records returned from GitHub API")
 
-    github_df = pd.DataFrame(all_records)
+    df = pd.DataFrame(all_records)
 
     print("Records by topic:")
-    print(github_df["search_topic"].value_counts())
+    print(df["search_topic"].value_counts())
 
-    return github_df
+    return df

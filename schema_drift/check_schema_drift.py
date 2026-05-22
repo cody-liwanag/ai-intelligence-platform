@@ -5,12 +5,11 @@ import duckdb
 
 
 DB_PATH = "warehouse/duckdb/platform.duckdb"
-CONTRACT_PATH = "contracts/github_repositories_schema.json"
 
 
-def load_schema_contract():
+def load_schema_contract(contract_path):
 
-    with open(CONTRACT_PATH, "r") as file:
+    with open(contract_path, "r") as file:
         contract = json.load(file)
 
     return contract
@@ -26,11 +25,11 @@ def get_next_drift_run_id(conn):
     return result[0]
 
 
-def check_github_schema_drift(df):
+def check_schema_drift(df, contract_path):
 
     conn = duckdb.connect(DB_PATH)
 
-    contract = load_schema_contract()
+    contract = load_schema_contract(contract_path)
 
     source_name = contract["source_name"]
     expected_columns = contract["columns"]
@@ -46,7 +45,7 @@ def check_github_schema_drift(df):
     unexpected_columns = []
     datatype_mismatches = []
 
-    print("Checking schema drift...")
+    print(f"Checking schema drift for {source_name}...")
 
     for column_name, column_contract in expected_columns.items():
 
@@ -91,22 +90,13 @@ def check_github_schema_drift(df):
     drift_events = []
 
     for drift in missing_columns:
-        drift_events.append({
-            "drift_type": "MISSING_COLUMN",
-            **drift
-        })
+        drift_events.append({"drift_type": "MISSING_COLUMN", **drift})
 
     for drift in unexpected_columns:
-        drift_events.append({
-            "drift_type": "UNEXPECTED_COLUMN",
-            **drift
-        })
+        drift_events.append({"drift_type": "UNEXPECTED_COLUMN", **drift})
 
     for drift in datatype_mismatches:
-        drift_events.append({
-            "drift_type": "DATATYPE_MISMATCH",
-            **drift
-        })
+        drift_events.append({"drift_type": "DATATYPE_MISMATCH", **drift})
 
     for event in drift_events:
 
@@ -150,9 +140,9 @@ def check_github_schema_drift(df):
     conn.close()
 
     print(
-        f"Schema drift check completed: {status} "
+        f"Schema drift check completed for {source_name}: {status} "
         f"({len(drift_events)} drift events found)"
     )
 
     if status == "FAILED":
-        raise Exception("Critical schema drift detected")
+        raise Exception(f"Critical schema drift detected for {source_name}")
