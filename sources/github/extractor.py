@@ -1,3 +1,4 @@
+import time 
 import requests
 import pandas as pd
 
@@ -31,10 +32,40 @@ def extract():
             "per_page": 50
         }
 
-        response = requests.get(url, params=params)
-        response.raise_for_status()
+        MAX_RETRIES = 3
+
+        for attempt in range(MAX_RETRIES):
+
+            try:
+
+                response = requests.get(
+                    url,
+                    params=params,
+                    timeout=30
+                )
+
+                response.raise_for_status()
+
+                break
+
+            except requests.exceptions.RequestException as e:
+
+                print(f"GitHub API request failed: {e}")
+
+                if attempt < MAX_RETRIES - 1:
+
+                    wait_time = 2 ** attempt
+
+                    print(f"Retrying in {wait_time} seconds...")
+
+                    time.sleep(wait_time)
+
+                else:
+
+                    raise
 
         data = response.json()
+
         repositories = data.get("items", [])
 
         print(f"Repositories returned for {topic}: {len(repositories)}")
@@ -56,11 +87,13 @@ def extract():
             })
 
     if not all_records:
+
         raise Exception("No records returned from GitHub API")
 
     df = pd.DataFrame(all_records)
 
     print("Records by topic:")
+
     print(df["search_topic"].value_counts())
 
     return df

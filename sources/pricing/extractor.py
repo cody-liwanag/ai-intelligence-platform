@@ -1,3 +1,4 @@
+import time
 import requests
 import pandas as pd
 
@@ -26,12 +27,40 @@ def extract_pricing_models():
         "Extracting model pricing data..."
     )
 
-    response = requests.get(
-        OPENROUTER_MODELS_URL,
-        timeout=30
-    )
+    MAX_RETRIES = 3
 
-    response.raise_for_status()
+    for attempt in range(MAX_RETRIES):
+
+        try:
+
+            response = requests.get(
+                OPENROUTER_MODELS_URL,
+                timeout=30
+            )
+
+            response.raise_for_status()
+
+            break
+
+        except requests.exceptions.RequestException as e:
+
+            print(
+                f"Pricing API request failed: {e}"
+            )
+
+            if attempt < MAX_RETRIES - 1:
+
+                wait_time = 2 ** attempt
+
+                print(
+                    f"Retrying in {wait_time} seconds..."
+                )
+
+                time.sleep(wait_time)
+
+            else:
+
+                raise
 
     data = response.json()
 

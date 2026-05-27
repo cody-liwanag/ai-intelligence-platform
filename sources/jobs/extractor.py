@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+import time 
 import os
 import requests
 import pandas as pd
@@ -25,7 +26,9 @@ AI_SEARCH_TOPICS = [
 
 
 def extract_jobs():
+
     if not ADZUNA_APP_ID or not ADZUNA_APP_KEY:
+
         raise ValueError(
             "Missing ADZUNA_APP_ID or ADZUNA_APP_KEY environment variable"
         )
@@ -33,6 +36,7 @@ def extract_jobs():
     all_records = []
 
     for topic in AI_SEARCH_TOPICS:
+
         print(f"Fetching jobs for topic: {topic}")
 
         url = (
@@ -48,18 +52,44 @@ def extract_jobs():
             "content-type": "application/json",
         }
 
-        response = requests.get(
-            url,
-            params=params,
-            timeout=30,
-        )
+        MAX_RETRIES = 3
 
-        response.raise_for_status()
+        for attempt in range(MAX_RETRIES):
+
+            try:
+
+                response = requests.get(
+                    url,
+                    params=params,
+                    timeout=30,
+                )
+
+                response.raise_for_status()
+
+                break
+
+            except requests.exceptions.RequestException as e:
+
+                print(f"Jobs API request failed: {e}")
+
+                if attempt < MAX_RETRIES - 1:
+
+                    wait_time = 2 ** attempt
+
+                    print(f"Retrying in {wait_time} seconds...")
+
+                    time.sleep(wait_time)
+
+                else:
+
+                    raise
 
         data = response.json()
+
         jobs = data.get("results", [])
 
         for job in jobs:
+
             company = job.get("company") or {}
             location = job.get("location") or {}
             category = job.get("category") or {}
