@@ -1,0 +1,51 @@
+{
+    "source_name": "pricing_models",
+
+    "columns": {
+
+        "provider_name": {
+            "expected_type": "object",
+            "required": true
+        },
+
+        "model_name": {
+            "expected_type": "object",
+            "required": true
+        },
+
+        "input_price_per_million": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "output_price_per_million": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "context_window": {
+            "expected_type": "float64",
+            "required": false
+        },
+
+        "model_family": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "pricing_source": {
+            "expected_type": "object",
+            "required": true
+        },
+
+        "pricing_snapshot_date": {
+            "expected_type": "datetime64[ns]",
+            "required": true
+        },
+
+        "search_topic": {
+            "expected_type": "object",
+            "required": true
+        }
+    }
+}

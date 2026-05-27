@@ -1,0 +1,71 @@
+{
+    "source_name": "jobs",
+
+    "columns": {
+
+        "search_topic": {
+            "expected_type": "object",
+            "required": true
+        },
+
+        "job_id": {
+            "expected_type": "object",
+            "required": true
+        },
+
+        "job_title": {
+            "expected_type": "object",
+            "required": true
+        },
+
+        "company_name": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "location_name": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "category_label": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "contract_type": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "created_at": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "salary_min": {
+            "expected_type": "float64",
+            "required": false
+        },
+
+        "salary_max": {
+            "expected_type": "float64",
+            "required": false
+        },
+
+        "salary_is_predicted": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "redirect_url": {
+            "expected_type": "object",
+            "required": false
+        },
+
+        "source_platform": {
+            "expected_type": "object",
+            "required": true
+        }
+    }
+}
