@@ -2,16 +2,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-import time 
 import os
+import time
 import requests
 import pandas as pd
-
 
 
 ADZUNA_APP_ID = os.getenv("ADZUNA_APP_ID")
 ADZUNA_APP_KEY = os.getenv("ADZUNA_APP_KEY")
 ADZUNA_COUNTRY = os.getenv("ADZUNA_COUNTRY", "gb")
+
 
 AI_SEARCH_TOPICS = [
     "artificial intelligence",
@@ -88,27 +88,63 @@ def extract_jobs():
 
         jobs = data.get("results", [])
 
+        total_results = data.get("count", 0)
+
+        print(
+            f"Estimated total market demand "
+            f"for {topic}: {total_results}"
+        )
+
         for job in jobs:
 
             company = job.get("company") or {}
+
             location = job.get("location") or {}
+
             category = job.get("category") or {}
 
             all_records.append(
                 {
                     "search_topic": topic,
-                    "job_id": job.get("id"),
-                    "job_title": job.get("title"),
-                    "company_name": company.get("display_name"),
-                    "location_name": location.get("display_name"),
-                    "category_label": category.get("label"),
-                    "contract_type": job.get("contract_type"),
-                    "created_at": job.get("created"),
-                    "salary_min": job.get("salary_min"),
-                    "salary_max": job.get("salary_max"),
-                    "salary_is_predicted": job.get("salary_is_predicted"),
-                    "redirect_url": job.get("redirect_url"),
-                    "source_platform": "adzuna",
+
+                    "estimated_market_demand":
+                        total_results,
+
+                    "job_id":
+                        job.get("id"),
+
+                    "job_title":
+                        job.get("title"),
+
+                    "company_name":
+                        company.get("display_name"),
+
+                    "location_name":
+                        location.get("display_name"),
+
+                    "category_label":
+                        category.get("label"),
+
+                    "contract_type":
+                        job.get("contract_type"),
+
+                    "created_at":
+                        job.get("created"),
+
+                    "salary_min":
+                        job.get("salary_min"),
+
+                    "salary_max":
+                        job.get("salary_max"),
+
+                    "salary_is_predicted":
+                        job.get("salary_is_predicted"),
+
+                    "redirect_url":
+                        job.get("redirect_url"),
+
+                    "source_platform":
+                        "adzuna",
                 }
             )
 

@@ -32,3 +32,5 @@ def load_huggingface_models(dataframe):
     print(
         "Loaded Hugging Face models into raw.huggingface_models"
     )
+
+    return len(dataframe)

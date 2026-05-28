@@ -2,25 +2,33 @@ CREATE OR REPLACE TABLE stage.stg_jobs AS
 
 SELECT
 
-    search_topic,
+    LOWER(TRIM(search_topic))
+        AS search_topic,
 
-    CAST(job_id AS VARCHAR) AS job_id,
+    estimated_market_demand,
 
-    TRIM(job_title) AS job_title,
+    job_id,
 
-    TRIM(company_name) AS company_name,
+    LOWER(TRIM(job_title))
+        AS job_title,
 
-    TRIM(location_name) AS location_name,
+    LOWER(TRIM(company_name))
+        AS company_name,
 
-    TRIM(category_label) AS category_label,
+    LOWER(TRIM(location_name))
+        AS location_name,
+
+    LOWER(TRIM(category_label))
+        AS category_label,
 
     contract_type,
 
-    CAST(created_at AS TIMESTAMP) AS created_at,
+    CAST(created_at AS TIMESTAMP)
+        AS created_at,
 
-    CAST(salary_min AS DOUBLE) AS salary_min,
+    salary_min,
 
-    CAST(salary_max AS DOUBLE) AS salary_max,
+    salary_max,
 
     salary_is_predicted,
 
@@ -28,6 +36,7 @@ SELECT
 
     source_platform,
 
-    CURRENT_TIMESTAMP AS staged_at
+    CURRENT_DATE
+        AS snapshot_date
 
 FROM raw.jobs;
