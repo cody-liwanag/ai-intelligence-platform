@@ -110,6 +110,7 @@ The resulting platform demonstrates concepts commonly found in modern analytics 
 ```text
 ai-intelligence-platform/
 
+├── assets/          # Architecture diagrams and dashboard screenshots
 ├── config/          # Platform configuration
 ├── data/            # Raw, stage, and mart data layers
 ├── metadata/        # Logging and operational metadata
@@ -119,9 +120,10 @@ ai-intelligence-platform/
 ├── sources/         # API ingestion framework
 ├── storage/         # Raw storage utilities
 ├── warehouse/       # Warehouse models and orchestration
-├── assets/          # Diagrams and dashboard screenshots
-├── docs/            # Supporting documentation
-└── tests/           # Future automated testing
+├── main.py          # Platform entry point
+├── Makefile         # Operational commands
+├── requirements.txt # Python dependencies
+└── README.md        # Project documentation
 ```
 
 The repository is organized around platform responsibilities rather than individual scripts, making it easier to extend ingestion sources, governance controls, and analytical models independently.
