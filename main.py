@@ -136,10 +136,6 @@ def main():
 
         run_quality_checks()
 
-        print("\n" + "=" * 60)
-        print("PUBLISHING MARTS TO POSTGRES")
-        print("=" * 60)
-
         publish_marts_to_postgres()
 
         print("\n" + "=" * 60)
